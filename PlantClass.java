@@ -5,13 +5,13 @@ public class PlantClass {
     private String plantName;
     private int potNumber;
     private String purpose;
-    private LocalDate lastWateredDate;
+    private LocalDate lastWateredDate;	
 
     public PlantClass() {
         this.plantName = "";
         this.potNumber = 0;
         this.purpose = "";
-        this.lastWateredDate = LocalDate.now();
+        this.lastWateredDate = "";
     }
 
     public PlantClass(String plantName, int potNumber, String purpose, LocalDate lastWateredDate) {
@@ -19,6 +19,13 @@ public class PlantClass {
         this.potNumber = potNumber;
         this.purpose = purpose;
         this.lastWateredDate = lastWateredDate;
+    }
+
+    public PlantClass(plantName otherPlant){
+    	this.plantName = otherPlant.plantName;
+	this.potNumber = otherPlant.potNumber;
+	this.purpose = otherPlant.purpose;
+	this.lastWaterDate = otherPlant.lastWaterDate;
     }
 
     public String getPlantName() {
@@ -67,6 +74,19 @@ public class PlantClass {
         } else {
             System.out.println("The date is invalid! Try inputting again.");
         }
+    }
+
+
+    public static PlantClass vaidationPurpose(Scanner scanner,int PlantIndex){
+    	System.out.println("Enter the details for "+(PlantIndex+1)+": ");
+	
+	System.out.println("Enter the plant name here: ");
+	String PlantName = scanner.nextLine();
+
+	while(PlantName.trim().Empty()){
+		System.out.println("Enter a vaild plant name it can't be empthy: ");
+		String PlantName = scanner.nextLine();
+	}
     }
 }
 
