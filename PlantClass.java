@@ -159,11 +159,11 @@ public class PlantClass {
     } while (!isValidDate(lastWateredDate));
     return lastWateredDate;
 }
-	//this is used to edit the csv file.
-	public String toeditCsv(){
-		return PlantName+","+pitNumber+","+purpose+","+lastWaterDate;
-	}
-  
+    public String toStringCsv(){
+        retrun plantName+","+potNumber+","+purpose+","+lastWateredDate;
+    }
+
+    // used to display the contents on the csv file.
     public String toCsv() {
         return "Plant name: " + plantName + " pot number: " + potNumber + " purpose: " + purpose + " Last date watered: " + lastWateredDate;
     }
