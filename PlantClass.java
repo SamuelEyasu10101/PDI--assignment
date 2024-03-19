@@ -115,7 +115,7 @@ public class PlantClass {
         String plantName;
         do {
             System.out.println("Enter the plant name: ");
-            plantName = scanner.nextLine().trim();// is used trim to remove spacing.
+            plantName = scanner.nextLine().trim();
         } while (!isValidPlantName(plantName));
         return plantName;
     }
@@ -146,26 +146,28 @@ public class PlantClass {
     }
 
     private static LocalDate validateDateWatered(Scanner scanner) {
-    LocalDate lastWateredDate;
-    do {
-        System.out.println("Enter the date watered (yyyy-MM-dd): ");
-        String dateString = scanner.nextLine().trim();
-        try {
-            lastWateredDate = LocalDate.parse(dateString);
-        } catch (Exception e) {
-            System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format."+e.getMessage());
-            lastWateredDate = null; // Set to null to continue loop
-        }
-    } while (!isValidDate(lastWateredDate));
-    return lastWateredDate;
-}
-    public String toStringCsv(){
-        retrun plantName+","+potNumber+","+purpose+","+lastWateredDate;
+        LocalDate lastWateredDate;
+        do {
+            System.out.println("Enter the date watered (yyyy-MM-dd): ");
+            String dateString = scanner.nextLine().trim();
+            try {
+                lastWateredDate = LocalDate.parse(dateString);
+            } catch (Exception e) {
+                System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                lastWateredDate = null; // Set to null to continue loop
+            }
+        } while (!isValidDate(lastWateredDate));
+        return lastWateredDate;
     }
 
-    // used to display the contents on the csv file.
-    public String toCsv() {
-        return "Plant name: " + plantName + " pot number: " + potNumber + " purpose: " + purpose + " Last date watered: " + lastWateredDate;
+    // Corrected method to convert to CSV format
+    public String toStringCsv() {
+        return plantName + "," + potNumber + "," + purpose + "," + lastWateredDate;
+    }
+
+    // Used to display the contents in a formatted string (not CSV)
+    public String toFormattedString() {
+        return "Plant name: " + plantName + ", pot number: " + potNumber + ", purpose: " + purpose + ", Last date watered: " + lastWateredDate;
     }
 }
 
