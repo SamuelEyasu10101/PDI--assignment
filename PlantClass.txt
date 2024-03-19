@@ -1,0 +1,89 @@
+Class PlantClass
+    Initialize as string plantName
+    Initialize as integer potNumber
+    Initialize as string purpose
+    Initialize as the local date lastWateredDate
+
+    Constructor PlantClass()
+        Set plantName to ""
+        Set potNumber to 0
+        Set purpose to ""
+        Set lastWateredDate to current date
+
+    Constructor PlantClass(plantName, potNumber, purpose, lastWateredDate)
+        Initialize class variables with provided arguments
+
+    Constructor PlantClass(otherPlant)
+        Copy all properties from otherPlant to this plant
+
+    Creating a accsor for PlantName:
+    	Method getPlantName()
+        	    Return plantName
+        	    
+    Creating an accsor for PotNumber:
+    	Method getPotNumber()
+        	    Return potNumber
+        	    
+    Creating an accsor for Purpose:
+    	Method getPurpose()
+             Return purpose
+             
+    Creating an accsor for LastWateredDate:
+    	Method getLastWateredDate()
+             Return lastWateredDate
+
+    Creating a Mutator for PlantName with validation:
+    	Method setPlantName(newPlantName)
+        	    If newPlantName is valid
+                 Update plantName
+        	    Else
+            	Throw IllegalArgumentException
+
+    Creating a Mutator for PotNumber with validation:
+    	Method setPotNumber(newPotNumber)
+        	   If newPotNumber is valid
+                 Update potNumber
+        	   Else
+                 Throw IllegalArgumentException
+    
+    Creating a Mutator for Purpose:
+    	Method setPurpose(newPurpose)
+            If newPurpose is valid
+                Update purpose
+        	   Else
+                Throw IllegalArgumentException
+
+    Creating a Mutator for LastWateredDate:
+    	Method setLastWateredDate(newLastWateredDate)
+        	   If newLastWateredDate is valid
+                Update lastWateredDate
+        	   Else
+                Throw IllegalArgumentException
+
+    Creating more validation for PlantName:
+    Method isValidPlantName(plantName)
+        Return true if plantName is not null and not empty
+
+    Creating more validation for PotNumber:
+    Method isValidPotNumber(potNumber)
+        Return true if potNumber is greater than 0
+
+    creating more validation for Purpose.
+    Method isValidPurpose(purpose)
+        Return true if purpose is one of "Medicinal", "Culinary", "Decorative"
+
+    Creating more validation for LastWateredDate.
+    Method isValidDate(LastWateredDate)
+        Return true if date is not null and not in the future
+
+	
+    Method validatePlantDetails(scanner, plantIndex)
+        Prompt and read plant details from user
+        Validate and return new PlantClass instance with provided details
+
+    Method toStringCsv()
+        Return plant details in CSV format
+
+    Method toFormattedString()
+        Return formatted string of plant details
+
