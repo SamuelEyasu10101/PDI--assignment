@@ -1,37 +1,34 @@
-import java.util.*;
-import java.time.*;
-
 public class PlantClass {
     private String plantName;
     private int potNumber;
     private String purpose;
-    private LocalDate lastWateredDate;
+    private String lastWateredDate;
 
     // Default constructor
     public PlantClass() {
         this.plantName = "";
-        this.potNumber = 0;
-        this.purpose = "";
-        this.lastWateredDate = LocalDate.now(); // Initialize with current date
+        this.potNumber = 1;
+        this.purpose = "Decorative";
+        this.lastWateredDate = "Not watered yet";
     }
 
     // Parameterized constructor
-    public PlantClass(String plantName, int potNumber, String purpose, LocalDate lastWateredDate) {
-        this.plantName = plantName;
-        this.potNumber = potNumber;
-        this.purpose = purpose;
-        this.lastWateredDate = lastWateredDate;
+    public PlantClass(String plantName, int potNumber, String purpose, String lastWateredDate) {
+        setPlantName(plantName);
+        setPotNumber(potNumber);
+        setPurpose(purpose);
+        setLastWateredDate(lastWateredDate);
     }
 
     // Copy constructor
-    public PlantClass(PlantClass otherPlant) {
-        this.plantName = otherPlant.plantName;
-        this.potNumber = otherPlant.potNumber;
-        this.purpose = otherPlant.purpose;
-        this.lastWateredDate = otherPlant.lastWateredDate;
+    public PlantClass(PlantClass other) {
+        this.plantName = other.plantName;
+        this.potNumber = other.potNumber;
+        this.purpose = other.purpose;
+        this.lastWateredDate = other.lastWateredDate;
     }
 
-    // Getter methods
+    // Accessors (getters)
     public String getPlantName() {
         return plantName;
     }
@@ -44,41 +41,37 @@ public class PlantClass {
         return purpose;
     }
 
-    public LocalDate getLastWateredDate() {
+    public String getLastWateredDate() {
         return lastWateredDate;
     }
 
-    // Setter methods
-    public void setPlantName(String newPlantName) {
-        if (isValidPlantName(newPlantName)) {
-            plantName = newPlantName;
-        } else {
-            throw new IllegalArgumentException("Enter a valid plant name.");
+    // Mutators (setters) with validation
+    public void setPlantName(String plantName) {
+        if (!isValidPlantName(plantName)) {
+            throw new IllegalArgumentException("Invalid plant name.");
         }
+        this.plantName = plantName;
     }
 
-    public void setPotNumber(int newPotNumber) {
-        if (isValidPotNumber(newPotNumber)) {
-            potNumber = newPotNumber;
-        } else {
-            throw new IllegalArgumentException("Enter a valid pot number.");
+    public void setPotNumber(int potNumber) {
+        if (!isValidPotNumber(potNumber)) {
+            throw new IllegalArgumentException("Invalid pot number.");
         }
+        this.potNumber = potNumber;
     }
 
-    public void setPurpose(String newPurpose) {
-        if (isValidPurpose(newPurpose)) {
-            purpose = newPurpose;
-        } else {
-            throw new IllegalArgumentException("Enter a valid purpose.");
+    public void setPurpose(String purpose) {
+        if (!isValidPurpose(purpose)) {
+            throw new IllegalArgumentException("Invalid purpose.");
         }
+        this.purpose = purpose;
     }
 
-    public void setLastWateredDate(LocalDate newLastWateredDate) {
-        if (isValidDate(newLastWateredDate)) {
-            lastWateredDate = newLastWateredDate;
-        } else {
-            throw new IllegalArgumentException("Enter a valid date.");
+    public void setLastWateredDate(String lastWateredDate) {
+        if (!isValidDate(lastWateredDate)) {
+            throw new IllegalArgumentException("Invalid date format. Please use yyyy-MM-dd format.");
         }
+        this.lastWateredDate = lastWateredDate;
     }
 
     // Validation methods
@@ -94,80 +87,41 @@ public class PlantClass {
         return purpose.equalsIgnoreCase("Medicinal") || purpose.equalsIgnoreCase("Culinary") || purpose.equalsIgnoreCase("Decorative");
     }
 
-    private static boolean isValidDate(LocalDate date) {
-        return date != null && !date.isAfter(LocalDate.now());
-    }
+    private static boolean isValidDate(String dateStr) {
+        if (dateStr == null || dateStr.length() != 10) {
+            return false;
+        }
 
-    // Method for validating plant details
-    public static PlantClass validatePlantDetails(Scanner scanner, int plantIndex) {
-        System.out.println("Enter the details for Plant " + (plantIndex + 1) + ": ");
+        if (dateStr.charAt(4) != '-' || dateStr.charAt(7) != '-') {
+            return false;
+        }
 
-        String plantName = validatePlantName(scanner);
-        int potNumber = validatePotNumber(scanner);
-        String purpose = validatePurpose(scanner);
-        LocalDate lastWateredDate = validateDateWatered(scanner);
+        try {
+            int year = Integer.parseInt(dateStr.substring(0, 4));
+            int month = Integer.parseInt(dateStr.substring(5, 7));
+            int day = Integer.parseInt(dateStr.substring(8, 10));
 
-        return new PlantClass(plantName, potNumber, purpose, lastWateredDate);
-    }
-
-    // Validation helper methods for plant details
-    private static String validatePlantName(Scanner scanner) {
-        String plantName;
-        do {
-            System.out.println("Enter the plant name: ");
-            plantName = scanner.nextLine().trim();
-        } while (!isValidPlantName(plantName));
-        return plantName;
-    }
-
-    private static int validatePotNumber(Scanner scanner) {
-        int potNumber;
-        do {
-            try {
-                System.out.println("Enter the pot number: ");
-                potNumber = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input! Please enter a valid integer for the pot number.");
-                scanner.nextLine(); // Clear the input buffer
-                potNumber = -1; // Set to invalid value to continue loop
+            if (year < 1000 || year > 9999) {
+                return false;
             }
-        } while (!isValidPotNumber(potNumber));
-        return potNumber;
-    }
-
-    private static String validatePurpose(Scanner scanner) {
-        String purpose;
-        do {
-            System.out.println("Enter the purpose (Medicinal, Culinary, or Decorative): ");
-            purpose = scanner.nextLine().trim();
-        } while (!isValidPurpose(purpose));
-        return purpose;
-    }
-
-    private static LocalDate validateDateWatered(Scanner scanner) {
-        LocalDate lastWateredDate;
-        do {
-            System.out.println("Enter the date watered (yyyy-MM-dd): ");
-            String dateString = scanner.nextLine().trim();
-            try {
-                lastWateredDate = LocalDate.parse(dateString);
-            } catch (Exception e) {
-                System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
-                lastWateredDate = null; // Set to null to continue loop
+            if (month < 1 || month > 12) {
+                return false;
             }
-        } while (!isValidDate(lastWateredDate));
-        return lastWateredDate;
+            if (day < 1 || day > 31) {
+                return false;
+            }
+
+            // Additional checks for days in each month could be added here
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
     }
 
-    // Corrected method to convert to CSV format
     public String toStringCsv() {
         return plantName + "," + potNumber + "," + purpose + "," + lastWateredDate;
-    }
-
-    // Used to display the contents in a formatted string (not CSV)
-    public String toFormattedString() {
-        return "Plant name: " + plantName + ", pot number: " + potNumber + ", purpose: " + purpose + ", Last date watered: " + lastWateredDate;
     }
 }
 
