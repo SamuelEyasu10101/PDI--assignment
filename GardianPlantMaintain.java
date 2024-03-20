@@ -1,11 +1,13 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class GardianPlantMaintain{
+public class GardianPlantMaintain {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static void main(String[] args) {
@@ -21,7 +23,14 @@ public class GardianPlantMaintain{
         boolean running = true;
         while (running) {
             displayMenu();
-            int choice = scanner.nextInt();
+            int choice = 0;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a valid number for your choice.");
+                scanner.nextLine(); // to clear the buffer
+                continue;
+            }
             scanner.nextLine(); // Consume newline
 
             if (choice == 1) {
@@ -73,8 +82,18 @@ public class GardianPlantMaintain{
         scanner.nextLine(); // Consume newline
         System.out.print("Purpose(medicinal/culinary/decorative/madilinala): ");
         String purpose = scanner.nextLine();
-        System.out.print("Last watered date (yyyy-MM-dd): ");
-        String wateredDate = scanner.nextLine();
+
+        String wateredDate = "";
+        boolean validDate = false;
+        while (!validDate) {
+            System.out.print("Last watered date (yyyy-MM-dd): ");
+            wateredDate = scanner.nextLine();
+            validDate = isValidDate(wateredDate);
+            if (!validDate) {
+                System.out.println("Invalid date format. Please try again using the yyyy-MM-dd format.");
+            }
+        }
+
         garden[plantCount++] = new PlantClass(name, potNumber, purpose, wateredDate);
         System.out.println("Plant added.");
         return plantCount;
@@ -124,6 +143,17 @@ public class GardianPlantMaintain{
         System.out.println("4. Save and exit");
         System.out.println("5. Exit without saving");
         System.out.print("Select an option: ");
+    }
+
+    private static boolean isValidDate(String dateStr) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false); // Don't automatically convert invalid date.
+        try {
+            sdf.parse(dateStr);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }
 
