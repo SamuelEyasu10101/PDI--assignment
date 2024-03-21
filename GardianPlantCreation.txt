@@ -1,0 +1,55 @@
+Program GardianPlantCreation
+
+    Method main
+        Create a Scanner object for input
+        Display "Welcome to the Garden Creation Program!"
+        Prompt "How many plants do you want to add to the garden? "
+        Read the number of plants (numberOfPlants) from user input
+        Consume the newline character remaining in the input buffer
+
+        Create an array of PlantClass objects called garden with size numberOfPlants
+
+        For i from 0 to numberOfPlants - 1
+            Call getPlantDetails method with scanner and i+1, assign the result to garden[i]
+
+        Prompt "\nEnter the filename to save the garden data (CSV format): "
+        Read the fileName from user input
+
+        Call saveGardenDataToFile method with garden array and fileName as arguments
+
+    End Method
+
+    Method getPlantDetails (Parameters: Scanner scanner, integer plantIndex)
+        Display "\nEntering details for plant " followed by plantIndex
+        Prompt "Enter the plant name: "
+        Read plantName from user input
+
+        Prompt "Enter the pot number: "
+        Read potNumber from user input, convert it to integer
+
+        Prompt "Enter the purpose (Medicinal, Culinary, Decorative): "
+        Read purpose from user input
+
+        Prompt "Enter the last watered date (yyyy-MM-dd), or press Enter for default value: "
+        Read lastWateredDateStr from user input
+        If lastWateredDateStr is empty
+            Set lastWateredDateStr to "Not watered yet"
+
+        Return a new PlantClass object initialized with plantName, potNumber, purpose, lastWateredDateStr
+
+    End Method
+
+    Method saveGardenDataToFile (Parameters: Array of PlantClass objects garden, String fileName)
+        Try
+            Create a PrintWriter object for fileName
+            For each plant in garden
+                Write the plant's details in CSV format to the file
+
+            Display "Garden data saved successfully to " followed by fileName
+        Catch FileNotFoundException
+            Display "An error occurred while saving the file: " followed by the error message
+
+    End Method
+
+End Program
+

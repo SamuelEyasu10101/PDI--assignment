@@ -1,0 +1,75 @@
+Program GardianPlantMaintain
+
+    Define dateFormat as SimpleDateFormat with pattern "yyyy-MM-dd"
+
+    Method main
+        Initialize scanner for input
+        Display welcome message
+        Prompt for filename to load garden data
+        Read filename
+
+        Declare garden array of PlantClass with size 100
+        Load garden data from file into garden array, store the count of plants
+
+        Set running to true
+        While running is true
+            Display menu options
+            Try to read choice from user
+                If input mismatch exception occurs
+                    Inform user and continue loop after clearing scanner buffer
+            Based on user's choice:
+                If choice is 1
+                    Call addNewPlant with scanner, garden, and plant count
+                If-Else choice is 2
+                    Call waterAllPlants with garden and plant count
+                If-Else choice is 3
+                    Call searchForPlants with scanner, garden, and plant count
+                If-Else choice is 4
+                    Call saveGardenData with scanner, garden, and plant count, then stop running
+                If-Else choice is 5
+                    Stop running
+                Otherwise
+                    Inform about invalid option
+
+    Method loadGardenData with filename and garden array
+        Initialize count to 0
+        Check if file exists
+            If not, inform user and return count
+        Try to open file with Scanner
+            While file has next line
+                Read line and split by comma
+                If split data length is 4
+                    Create new PlantClass from data and store in garden, increment count
+        Catch FileNotFoundException and inform user
+        Return count
+
+    Method addNewPlant with scanner, garden array, and plant count
+        Prompt user for new plant details (name, pot number, purpose, last watered date)
+        Validate last watered date input
+        Add new plant to garden and increment plant count
+        Inform user about addition
+        Return updated plant count
+
+    Method waterAllPlants with garden array and plant count
+        Set current date as lastWateredDate for all plants in garden
+        Inform user about watering
+
+    Method searchForPlants with scanner, garden array, and plant count
+        Prompt for plant name to search
+        Search and display matching plant details
+        If not found, inform user
+
+    Method saveGardenData with scanner, garden array, and plant count
+        Prompt for filename to save
+        Try to write garden data to file
+            Iterate over garden and write each plant's data
+            Inform user about successful save
+        Catch FileNotFoundException and inform user
+
+    Method displayMenu
+        Display options to user (Add, Water, Search, Save & Exit, Exit)
+
+    Method isValidDate with dateStr
+        Validate dateStr format with SimpleDateFormat
+        Return true if valid, false otherwise
+
