@@ -1,6 +1,7 @@
-import java.util.Scanner;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class GardianPlantCreation {
 
@@ -8,9 +9,21 @@ public class GardianPlantCreation {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to the Garden Creation Program!");
-        System.out.print("How many plants do you want to add to the garden? ");
-        int numberOfPlants = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+
+        int numberOfPlants = 0;
+        do {
+            try {
+                System.out.print("How many plants do you want to add to the garden? ");
+                numberOfPlants = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+                if (numberOfPlants <= 0) {
+                    System.out.println("The number of plants must be greater than 0. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a numerical value.");
+                scanner.next(); // Clear the invalid input
+            }
+        } while (numberOfPlants <= 0);
 
         PlantClass[] garden = new PlantClass[numberOfPlants];
 
@@ -22,6 +35,7 @@ public class GardianPlantCreation {
         String fileName = scanner.nextLine();
 
         saveGardenDataToFile(garden, fileName);
+        scanner.close();
     }
 
     private static PlantClass getPlantDetails(Scanner scanner, int plantIndex) {
@@ -29,11 +43,25 @@ public class GardianPlantCreation {
         System.out.print("Enter the plant name: ");
         String plantName = scanner.nextLine();
 
-        System.out.print("Enter the pot number: ");
-        int potNumber = Integer.parseInt(scanner.nextLine());
+        int potNumber;
+        do {
+            System.out.print("Enter the pot number: ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a numerical value for the pot number.");
+                scanner.next(); // Clear the invalid input
+            }
+            potNumber = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+        } while (potNumber <= 0);
 
-        System.out.print("Enter the purpose (Medicinal, Culinary, Decorative): ");
-        String purpose = scanner.nextLine();
+        String purpose;
+        do {
+            System.out.print("Enter the purpose (Medicinal, Culinary, Decorative): ");
+            purpose = scanner.nextLine();
+            if (!purpose.equalsIgnoreCase("Medicinal") && !purpose.equalsIgnoreCase("Culinary") && !purpose.equalsIgnoreCase("Decorative")) {
+                System.out.println("Invalid input. Please enter 'Medicinal', 'Culinary', or 'Decorative'.");
+            }
+        } while (!purpose.equalsIgnoreCase("Medicinal") && !purpose.equalsIgnoreCase("Culinary") && !purpose.equalsIgnoreCase("Decorative"));
 
         System.out.print("Enter the last watered date (yyyy-MM-dd), or press Enter for default value: ");
         String lastWateredDateStr = scanner.nextLine();
